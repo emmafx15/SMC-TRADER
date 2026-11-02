@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMC TRADER - Full Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
+body{min-height:100vh;background:#020a06;color:#fff;display:flex;justify-content:center;align-items:center;padding:16px;position:relative}
+.bg{position:fixed;inset:0;background-image:url('forex_bg.jpg');background-size:cover;background-position:center;filter:brightness(0.45) blur(1px);z-index:0}
+.overlay{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%, rgba(0,255,136,0.18), transparent 60%), linear-gradient(180deg, rgba(2,10,6,0.4), rgba(2,10,6,0.9));z-index:1}
+.card{position:relative;z-index:10;width:460px;padding:32px;border-radius:28px;background:rgba(10,22,16,0.82);border:1px solid rgba(0,255,136,0.25);backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,0.8)}
+.logo{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#00ff88,#00cc6a);border-radius:12px;display:flex;justify-content:center;align-items:center;font-weight:900;color:#000}
+h1{font-size:26px;font-weight:900} .sub{font-size:11px;letter-spacing:2px;opacity:0.5;margin-bottom:20px}
+.tabs{display:flex;background:rgba(0,0,0,0.45);padding:5px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);margin-bottom:20px}
+.tab{flex:1;padding:11px;border-radius:10px;border:0;background:transparent;color:#888;cursor:pointer;font-weight:800;font-size:14px}
+.tab.active{background:#0a2e1a;color:#00ff88;border:1px solid rgba(0,255,136,0.3)}
+.label{font-size:12px;opacity:0.7;margin:12px 0 6px;display:block;font-weight:600}
+.input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;outline:none}
+.input:focus{border-color:#00ff88}
+.btn{width:100%;padding:14px;border-radius:14px;border:0;font-weight:900;cursor:pointer;margin-top:18px;font-size:15px}
+.btn-green{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;box-shadow:0 0 35px rgba(0,255,136,0.45)}
+.btn-gray{background:rgba(255,255,255,0.08);color:#fff;margin-top:10px}
+.msg{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
+.msg.ok{background:rgba(0,255,136,0.15);border:1px solid #00ff88;color:#00ff88;display:block}
+.msg.err{background:rgba(255,68,68,0.15);border:1px solid #ff4444;color:#ff8888;display:block}
+.otp-box{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.otp{width:44px;height:54px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.4);color:#00ff88;font-size:22px;font-weight:900;text-align:center;outline:none}
+.dash{display:none;width:100%;max-width:1350px;min-height:100vh;position:relative;z-index:2}
+.code-preview{background:rgba(0,255,136,0.1);border:1px dashed #00ff88;padding:10px;border-radius:12px;margin:12px 0;text-align:center}
+.step{font-size:11px;opacity:0.5;margin-bottom:8px;letter-spacing:1px}
+.phone-wrap{display:flex;gap:8px}
+.phone-wrap select{width:95px;padding:13px 8px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="overlay"></div>
+<div class="card" id="authCard">
+<div class="logo"><div class="logo-icon">ST</div><div><h1>SMC TRADER</h1><div class="sub">PRECISION • LIQUIDITY • STRUCTURE</div></div></div>
+<div class="tabs" id="tabs"><button class="tab active" id="tLogin" onclick="switchTab('login')">Login</button><button class="tab" id="tReg" onclick="switchTab('reg')">Register</button></div>
+<div id="message" class="msg"></div>
+<div id="loginForm"><span class="label">Email</span><input class="input" id="lEmail"><span class="label">Password</span><input class="input" id="lPass" type="password"><button class="btn btn-green" onclick="doLogin()">Login</button></div>
+<div id="regForm" style="display:none"><div class="step">STEP 1 OF 3 • ACCOUNT</div><span class="label">Email</span><input class="input" id="rEmail"><span class="label">Password</span><input class="input" id="rPass" type="password"><span class="label">Confirm Password</span><input class="input" id="rPass2" type="password"><button class="btn btn-green" onclick="startVerification()">SEND CODE →</button></div>
+<div id="verifyForm" style="display:none"><div class="step">STEP 2 OF 3 • VERIFY EMAIL</div><h2 style="text-align:center;font-size:19px">Verify your email</h2><p style="text-align:center;font-size:13px;opacity:0.6">Code sent to<br><b id="verifyEmailDisplay" style="color:#00ff88"></b></p><div class="otp-box"><input class="otp" id="o1" maxlength="1" oninput="moveOTP(1)"><input class="otp" id="o2" maxlength="1" oninput="moveOTP(2)"><input class="otp" id="o3" maxlength="1" oninput="moveOTP(3)"><input class="otp" id="o4" maxlength="1" oninput="moveOTP(4)"><input class="otp" id="o5" maxlength="1" oninput="moveOTP(5)"><input class="otp" id="o6" maxlength="1"></div><div id="codePreview" class="code-preview"><span style="font-size:11px;opacity:0.7">DEMO CODE:</span> <b id="demoCode" style="font-size:22px;color:#00ff88"></b></div><button class="btn btn-green" onclick="confirmCode()">VERIFY →</button><button class="btn btn-gray" onclick="resendCode()">Resend code</button></div>
+<div id="profileForm" style="display:none"><div class="step">STEP 3 OF 3 • YOUR PROFILE</div><h2 style="text-align:center;font-size:19px">Complete your profile</h2><span class="label">Full Name</span><input class="input" id="pName" placeholder="John Michael Doe"><span class="label">Phone Number</span><div class="phone-wrap"><select id="pCountry"><option value="+234">🇳🇬 +234</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option></select><input class="input" id="pNumber" placeholder="8012345678" style="flex:1"></div><span class="label">Trading Experience</span><select id="pExp" class="input"><option value="">Select</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><button class="btn btn-green" onclick="completeProfile()">COMPLETE REGISTRATION →</button></div>
+</div>
+<div class="dash" id="dash"><div style="background:rgba(5,10,10,0.85);border:1px solid rgba(0,255,136,0.15);border-radius:16px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span></h2><div id="welcomeEmail" style="font-size:12px;opacity:0.6"></div><div id="welcomePhone" style="font-size:11px;opacity:0.4"></div></div><button onclick="doLogout()" style="padding:8px 16px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer">Logout</button></div><div style="background:rgba(10,20,15,0.9);border-radius:20px;padding:10px;height:75vh;border:1px solid rgba(255,255,255,0.08)"><div id="tv" style="height:100%;border-radius:14px;overflow:hidden"></div></div></div>
+<script>
+let pendingUser=null,currentCode=null;
+function getUsers(){try{return JSON.parse(localStorage.getItem('smc_users')||'[]')}catch(e){return []}}
+function saveUsers(u){localStorage.setItem('smc_users',JSON.stringify(u))}
+function showMsg(t,ok){const m=document.getElementById('message');m.textContent=t;m.className='msg '+(ok?'ok':'err');setTimeout(()=>{m.className='msg'},4000);}
+function switchTab(t){loginForm.style.display=t==='login'?'block':'none';regForm.style.display=t==='reg'?'block':'none';verifyForm.style.display='none';profileForm.style.display='none';tabs.style.display='flex';tLogin.className='tab'+(t==='login'?' active':'');tReg.className='tab'+(t==='reg'?' active':'');}
+function startVerification(){const email=rEmail.value.trim().toLowerCase(),pass=rPass.value,pass2=rPass2.value;if(!email||!pass)return showMsg('Fill email & password',false);if(pass.length<6)return showMsg('Password min 6 chars',false);if(pass!==pass2)return showMsg('Passwords no match',false);if(getUsers().find(u=>u.email===email))return showMsg('Email already registered',false);currentCode=Math.floor(100000+Math.random()*900000).toString();pendingUser={email,password:pass,verified:false};verifyEmailDisplay.innerText=email;demoCode.innerText=currentCode;regForm.style.display='none';tabs.style.display='none';verifyForm.style.display='block';clearOTP();showMsg('Code '+currentCode+' sent (demo)',true);}
+function moveOTP(n){if(document.getElementById('o'+n).value&&n<6)document.getElementById('o'+(n+1)).focus();}
+function clearOTP(){for(let i=1;i<=6;i++)document.getElementById('o'+i).value='';}
+function getEnteredCode(){let c='';for(let i=1;i<=6;i++)c+=document.getElementById('o'+i).value;return c;}
+function confirmCode(){const e=getEnteredCode();if(e.length!==6)return showMsg('Enter 6-digit code',false);if(e!==currentCode)return showMsg('Wrong code',false);pendingUser.verified=true;verifyForm.style.display='none';profileForm.style.display='block';showMsg('Email verified! Complete profile',true);}
+function resendCode(){currentCode=Math.floor(100000+Math.random()*900000).toString();demoCode.innerText=currentCode;clearOTP();showMsg('New code: '+currentCode,true);}
+function completeProfile(){const fullName=pName.value.trim(),country=pCountry.value,number=pNumber.value.trim(),exp=pExp.value;if(!fullName||!number)return showMsg('Enter full name and phone',false);pendingUser.fullName=fullName;pendingUser.phone=country+' '+number;pendingUser.experience=exp;pendingUser.created=Date.now();const users=getUsers();users.push(pendingUser);saveUsers(users);showMsg('Welcome '+fullName+'!',true);setTimeout(()=>{localStorage.setItem('smc_current',JSON.stringify(pendingUser));enter(pendingUser)},800);}
+function doLogin(){const email=lEmail.value.trim().toLowerCase(),pass=lPass.value;if(!email||!pass)return showMsg('Enter email & password',false);const user=getUsers().find(u=>u.email===email&&u.password===pass);if(!user)return showMsg('Invalid email or password',false);if(!user.verified)return showMsg('Verify email first',false);localStorage.setItem('smc_current',JSON.stringify(user));enter(user);}
+function enter(user){authCard.style.display='none';dash.style.display='block';welcomeEmail.innerText='Verified • '+(user.fullName||'')+' ('+user.email+')';welcomePhone.innerText=user.phone?'📱 '+user.phone:';tv.innerHTML='<iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tv&symbol=FX:EURUSD&interval=15&hidesidetoolbar=0&theme=dark&style=1&locale=en" style="width:100%;height:100%;border:0"></iframe>';}
+function doLogout(){localStorage.removeItem('smc_current');location.reload();}
+const cur=localStorage.getItem('smc_current');if(cur){try{enter(JSON.parse(cur))}catch(e){}}
+</script>
+</body>
+</html>
