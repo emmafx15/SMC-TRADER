@@ -3,97 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMC TRADER - Full Premium Edition</title>
+<title>SMC TRADER - Correct Flow</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
-body{min-height:100vh;background:#050a0a;color:#fff;overflow-x:hidden}
-.bg{position:fixed;inset:0;background-image:url('forex_bg.jpg');background-size:cover;background-position:center;filter:brightness(0.35) blur(2px);z-index:0}
-.overlay{position:fixed;inset:0;background:radial-gradient(circle at 30% 20%, rgba(0,255,136,0.18), transparent 50%), linear-gradient(180deg, rgba(5,10,10,0.5), rgba(5,10,10,0.95));z-index:1}
-.auth-wrap{position:relative;z-index:10;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
-.card{width:460px;padding:32px;border-radius:28px;background:rgba(10,22,16,0.84);border:1px solid rgba(0,255,136,0.28);backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,0.8)}
-.logo{display:flex;gap:10px;align-items:center;margin-bottom:6px}
-.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#00ff88,#00cc6a);border-radius:12px;display:flex;justify-content:center;align-items:center;font-weight:900;color:#000;font-size:20px}
-h1{font-size:26px;font-weight:900} .sub{font-size:11px;letter-spacing:2px;opacity:0.5;margin-bottom:20px}
-.tabs{display:flex;background:rgba(0,0,0,0.5);padding:5px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);margin-bottom:18px}
-.tab{flex:1;padding:11px;border-radius:10px;border:0;background:transparent;color:#888;cursor:pointer;font-weight:800;font-size:14px}
+body{min-height:100vh;background:#020a06;color:#fff;display:flex;justify-content:center;align-items:center;padding:16px;position:relative}
+.bg{position:fixed;inset:0;background:
+linear-gradient(rgba(2,10,6,0.65), rgba(2,10,6,0.9)),
+url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1920&q=80');
+background-size:cover;background-position:center;z-index:0}
+.overlay{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%, rgba(0,255,136,0.2), transparent 60%);z-index:1}
+.card{position:relative;z-index:10;width:420px;padding:28px;border-radius:24px;background:rgba(10,22,16,0.9);border:1px solid rgba(0,255,136,0.3);backdrop-filter:blur(22px);box-shadow:0 20px 80px rgba(0,0,0,0.8)}
+.logo{display:flex;gap:10px;align-items:center;margin-bottom:4px}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#00ff88,#00cc6a);border-radius:10px;display:flex;justify-content:center;align-items:center;font-weight:900;color:#000;font-size:16px}
+h1{font-size:22px;font-weight:900} .sub{font-size:10px;letter-spacing:1.5px;opacity:0.5;margin-bottom:18px}
+.tabs{display:flex;background:rgba(0,0,0,0.5);padding:4px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);margin-bottom:16px}
+.tab{flex:1;padding:10px;border-radius:9px;border:0;background:transparent;color:#888;cursor:pointer;font-weight:800;font-size:13px}
 .tab.active{background:#0a2e1a;color:#00ff88;border:1px solid rgba(0,255,136,0.3)}
-.label{font-size:12px;opacity:0.7;margin:10px 0 6px;display:block;font-weight:600}
-.input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;outline:none}
-.btn{width:100%;padding:14px;border-radius:14px;border:0;font-weight:900;cursor:pointer;margin-top:14px;font-size:15px}
-.btn-green{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;box-shadow:0 0 35px rgba(0,255,136,0.45)}
-.btn-gray{background:rgba(255,255,255,0.08);color:#fff;margin-top:10px}
-.msg{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
+.label{font-size:12px;opacity:0.7;margin:10px 0 5px;display:block;font-weight:600}
+.input{width:100%;padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none}
+.btn{width:100%;padding:13px;border-radius:12px;border:0;font-weight:900;cursor:pointer;margin-top:12px;font-size:14px}
+.btn-green{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000}
+.btn-white{background:#fff;color:#000;display:flex;justify-content:center;align-items:center;gap:10px;font-weight:700}
+.btn-gray{background:rgba(255,255,255,0.08);color:#fff;margin-top:8px}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;font-size:11px;opacity:0.5}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}
+.msg{padding:10px 14px;border-radius:10px;font-size:12px;margin-bottom:12px;display:none}
 .msg.ok{background:rgba(0,255,136,0.15);border:1px solid #00ff88;color:#00ff88;display:block}
 .msg.err{background:rgba(255,68,68,0.15);border:1px solid #ff4444;color:#ff8888;display:block}
-.otp-box{display:flex;gap:8px;justify-content:center;margin:16px 0}
-.otp{width:42px;height:52px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.4);color:#00ff88;font-size:20px;font-weight:900;text-align:center;outline:none}
-.code-preview{background:rgba(0,255,136,0.1);border:1px dashed #00ff88;padding:10px;border-radius:12px;margin:12px 0;text-align:center}
-.step{font-size:10px;opacity:0.5;margin-bottom:6px;letter-spacing:1px}
+.otp-box{display:flex;gap:7px;justify-content:center;margin:16px 0}
+.otp{width:40px;height:50px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.4);color:#00ff88;font-size:20px;font-weight:900;text-align:center;outline:none}
+.code-preview{background:rgba(0,255,136,0.12);border:1px dashed #00ff88;padding:10px;border-radius:12px;margin:12px 0;text-align:center}
+.step{font-size:10px;opacity:0.5;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase}
 .phone-wrap{display:flex;gap:8px}
-.phone-wrap select{width:95px;padding:13px 8px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
+.phone-wrap select{width:95px;padding:12px 8px;border-radius:11px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
 .dash{display:none;position:relative;z-index:2;width:100%;min-height:100vh;background:#050a0a}
-.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(5,10,10,0.9);border-bottom:1px solid rgba(0,255,136,0.15)}
-.content{padding:16px;display:grid;gap:16px;grid-template-columns:280px 1fr}
-.port{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(10,20,15,0.9));border:1px solid rgba(0,255,136,0.15);border-radius:20px;padding:18px}
-.port h1{font-size:34px;font-weight:900}
-.pill{display:inline-block;margin-top:8px;padding:6px 14px;border-radius:20px;background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);color:#00ff88;font-size:12px;font-weight:700}
-.snap{background:rgba(20,30,25,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin:8px 0}
-.left{display:flex;flex-direction:column;gap:16px}
-.card-dash{background:#0f1e16;border:1px solid #1a3a2a;border-radius:16px;padding:16px}
-.pair{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin:4px 0;border-radius:10px;background:rgba(20,30,25,0.6);border:1px solid transparent;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(5,10,10,0.95);border-bottom:1px solid rgba(0,255,136,0.15)}
+.content{padding:14px;display:grid;gap:14px;grid-template-columns:280px 1fr}
+.port{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(10,20,15,0.9));border:1px solid rgba(0,255,136,0.15);border-radius:18px;padding:16px}
+.card-dash{background:#0f1e16;border:1px solid #1a3a2a;border-radius:14px;padding:14px}
+.pair{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;margin:4px 0;border-radius:9px;background:rgba(20,30,25,0.6);border:1px solid transparent;cursor:pointer;font-size:13px}
 .pair.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
-.score{float:right;background:rgba(0,255,136,0.15);border:1px solid #00ff88;color:#00ff88;padding:2px 8px;border-radius:4px;font-size:10px}
 </style>
 </head>
 <body>
 <div class="bg"></div><div class="overlay"></div>
-<div class="auth-wrap" id="authWrap">
+<div style="position:relative;z-index:10;min-height:100vh;display:flex;justify-content:center;align-items:center;width:100%" id="authWrap">
 <div class="card" id="authCard">
 <div class="logo"><div class="logo-icon">ST</div><div><h1>SMC TRADER</h1><div class="sub">PRECISION • LIQUIDITY • STRUCTURE</div></div></div>
 <div class="tabs" id="tabs"><button class="tab active" id="tLogin" onclick="switchTab('login')">Login</button><button class="tab" id="tReg" onclick="switchTab('reg')">Register</button></div>
 <div id="message" class="msg"></div>
-<div id="loginForm"><span class="label">Email</span><input class="input" id="lEmail"><span class="label">Password</span><input class="input" id="lPass" type="password"><button class="btn btn-green" onclick="doLogin()">LOGIN →</button><div style="text-align:center;font-size:11px;opacity:0.4;margin-top:12px" id="userCount"></div></div>
-<div id="regForm" style="display:none"><div class="step">STEP 1 OF 3 • ACCOUNT</div><span class="label">Email</span><input class="input" id="rEmail"><span class="label">Password</span><input class="input" id="rPass" type="password"><span class="label">Confirm Password</span><input class="input" id="rPass2" type="password"><button class="btn btn-green" onclick="startVerification()">SEND CODE →</button></div>
-<div id="verifyForm" style="display:none"><div class="step">STEP 2 OF 3 • VERIFY EMAIL</div><h2 style="text-align:center;font-size:19px">Verify your email</h2><p style="text-align:center;font-size:13px;opacity:0.6">Code sent to<br><b id="verifyEmailDisplay" style="color:#00ff88"></b></p><div class="otp-box"><input class="otp" id="o1" maxlength="1" oninput="moveOTP(1)"><input class="otp" id="o2" maxlength="1" oninput="moveOTP(2)"><input class="otp" id="o3" maxlength="1" oninput="moveOTP(3)"><input class="otp" id="o4" maxlength="1" oninput="moveOTP(4)"><input class="otp" id="o5" maxlength="1" oninput="moveOTP(5)"><input class="otp" id="o6" maxlength="1"></div><div class="code-preview"><span style="font-size:11px;opacity:0.7">DEMO CODE:</span> <b id="demoCode" style="font-size:22px;color:#00ff88;letter-spacing:3px"></b></div><button class="btn btn-green" onclick="confirmCode()">VERIFY →</button><button class="btn btn-gray" onclick="resendCode()">Resend code</button></div>
-<div id="profileForm" style="display:none"><div class="step">STEP 3 OF 3 • YOUR PROFILE</div><h2 style="text-align:center;font-size:19px">Complete Your Profile</h2><span class="label">Full Name</span><input class="input" id="pName" placeholder="John Michael Doe"><span class="label">Phone Number</span><div class="phone-wrap"><select id="pCountry"><option value="+234">🇳🇬 +234</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option></select><input class="input" id="pNumber" placeholder="8012345678" style="flex:1"></div><span class="label">Experience</span><select id="pExp" class="input"><option value="">Select</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><button class="btn btn-green" onclick="completeProfile()">COMPLETE & GO TO DASHBOARD →</button></div>
-</div>
-</div>
-<div class="dash" id="dash">
-<div class="topbar"><div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span></h2><div id="welcomeInfo" style="font-size:11px;opacity:0.6"></div></div><div><span id="liveBal" style="font-size:12px;color:#00ff88;font-weight:700">$12,450.00</span> <button onclick="doLogout()" style="padding:8px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;font-size:12px">Logout</button></div></div>
-<div class="content">
-<div class="left">
-<div class="port"><h1>$12,450.00</h1><div style="font-size:12px;opacity:0.6">Portfolio Balance</div><div class="pill">+ $342.50 (2.8%) Today</div><div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="snap"><div style="font-size:11px;opacity:0.5">WIN RATE</div><div style="font-size:20px;font-weight:800;color:#00ff88">68%</div></div><div class="snap"><div style="font-size:11px;opacity:0.5">A+ SETUPS</div><div style="font-size:20px;font-weight:800">3 Found</div></div></div></div>
-<div class="card-dash"><h3>🔍 SMC Pairs <span class="score">A+ Score</span></h3><div id="pairList"><div class="pair on" onclick="selectPair(this,'EURUSD')"><span>EURUSD • London</span><span style="color:#00ff88;font-size:12px">92</span></div><div class="pair" onclick="selectPair(this,'GBPUSD')"><span>GBPUSD • Killzone</span><span style="color:#ffaa00;font-size:12px">87</span></div><div class="pair" onclick="selectPair(this,'XAUUSD')"><span>XAUUSD • Gold</span><span style="color:#00ff88;font-size:12px">94</span></div><div class="pair" onclick="selectPair(this,'BTCUSD')"><span>BTCUSD • Crypto</span><span style="color:#888;font-size:12px">76</span></div></div></div>
-<div class="card-dash"><h3>👤 Your Profile</h3><div style="font-size:12px;line-height:1.8;opacity:0.8" id="profileBox"></div></div>
-</div>
-<div style="display:flex;flex-direction:column;gap:16px">
-<div class="card-dash" style="padding:0;overflow:hidden;height:520px"><div style="padding:12px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #1a3a2a"><b id="chartTitle">EURUSD - 15M - SMC Structure</b><span style="font-size:11px;color:#00ff88">● LIVE</span></div><div id="tvChart" style="height:480px;background:#000"></div></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="card-dash"><h3>💡 SMC Insights</h3><div style="font-size:13px;line-height:1.6;opacity:0.8">• BOS detected<br>• Order Block at 1.0850<br>• Liquidity sweep<br>• FVG 1.0840-1.0850<br><br><span style="color:#00ff88">A+ Entry: Wait for retest</span></div></div><div class="card-dash"><h3>📈 Today's Signals</h3><div class="pair"><span>EURUSD LONG • 1.0852 → 1.0880</span><span style="background:#00ff8820;color:#00ff88;padding:2px 8px;border-radius:6px;font-size:11px">+28 pips</span></div><div class="pair"><span>XAUUSD SHORT • 2045 → 2032</span><span style="background:#ff444420;color:#ff8888;padding:2px 8px;border-radius:6px;font-size:11px">-5 pips</span></div></div></div>
-</div>
-</div>
-</div>
-<script>
-let pendingUser=null,currentCode=null;
-function getUsers(){try{return JSON.parse(localStorage.getItem('smc_users')||'[]')}catch(e){return []}}
-function saveUsers(u){localStorage.setItem('smc_users',JSON.stringify(u));updateCount();}
-function updateCount(){const c=getUsers().length;document.getElementById('userCount').innerText=c?c+' account(s) saved - Login with saved email':'No saved accounts yet';}
-function showMsg(t,ok){const m=document.getElementById('message');m.textContent=t;m.className='msg '+(ok?'ok':'err');setTimeout(()=>{m.className='msg'},4000);}
-function switchTab(t){loginForm.style.display=t==='login'?'block':'none';regForm.style.display=t==='reg'?'block':'none';verifyForm.style.display='none';profileForm.style.display='none';tabs.style.display='flex';tLogin.className='tab'+(t==='login'?' active':'');tReg.className='tab'+(t==='reg'?' active':'');}
-function startVerification(){const email=rEmail.value.trim().toLowerCase(),pass=rPass.value,pass2=rPass2.value;if(!email||!pass)return showMsg('Fill all',false);if(pass.length<6)return showMsg('Password min 6',false);if(pass!==pass2)return showMsg('No match',false);if(getUsers().find(u=>u.email===email))return showMsg('Email exists',false);currentCode=Math.floor(100000+Math.random()*900000).toString();pendingUser={email,password:pass,verified:false};verifyEmailDisplay.innerText=email;demoCode.innerText=currentCode;regForm.style.display='none';tabs.style.display='none';verifyForm.style.display='block';clearOTP();showMsg('Code '+currentCode+' sent (demo)',true);}
-function moveOTP(n){if(document.getElementById('o'+n).value&&n<6)document.getElementById('o'+(n+1)).focus();}
-function clearOTP(){for(let i=1;i<=6;i++)document.getElementById('o'+i).value='';}
-function getEnteredCode(){let c='';for(let i=1;i<=6;i++)c+=document.getElementById('o'+i).value;return c;}
-function confirmCode(){const e=getEnteredCode();if(e.length!==6)return showMsg('Enter 6 digits',false);if(e!==currentCode)return showMsg('Wrong code',false);pendingUser.verified=true;verifyForm.style.display='none';profileForm.style.display='block';showMsg('Email verified! Complete profile',true);}
-function resendCode(){currentCode=Math.floor(100000+Math.random()*900000).toString();demoCode.innerText=currentCode;clearOTP();showMsg('New code: '+currentCode,true);}
-function completeProfile(){const fullName=pName.value.trim(),country=pCountry.value,number=pNumber.value.trim(),exp=pExp.value;if(!fullName||!number)return showMsg('Enter full name & phone',false);pendingUser.fullName=fullName;pendingUser.phone=country+' '+number;pendingUser.experience=exp;pendingUser.created=Date.now();const users=getUsers();users.push(pendingUser);saveUsers(users);showMsg('Welcome '+fullName+'! Opening dashboard...',true);setTimeout(()=>{localStorage.setItem('smc_current',JSON.stringify(pendingUser));enter(pendingUser)},800);}
-function doLogin(){const email=lEmail.value.trim().toLowerCase(),pass=lPass.value;if(!email||!pass)return showMsg('Enter email & password',false);const user=getUsers().find(u=>u.email===email&&u.password===pass);if(!user)return showMsg('Invalid - Register first',false);if(!user.verified)return showMsg('Verify email first',false);localStorage.setItem('smc_current',JSON.stringify(user));enter(user);}
-function enter(user){authWrap.style.display='none';document.querySelector('.bg').style.display='none';document.querySelector('.overlay').style.display='none';dash.style.display='block';document.body.style.background='#050a0a';welcomeInfo.innerText='Verified • '+(user.fullName||'')+' • '+user.email+' • '+(user.phone||'');profileBox.innerHTML='<b>Name:</b> '+(user.fullName||'N/A')+'<br><b>Email:</b> '+user.email+'<br><b>Phone:</b> '+(user.phone||'N/A')+'<br><b>Exp:</b> '+(user.experience||'N/A')+'<br><b>Verified:</b> ✅<br><b>Joined:</b> '+new Date(user.created||Date.now()).toLocaleDateString();loadChart('FX:EURUSD');}
-function loadChart(sym){tvChart.innerHTML='<iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tv&symbol='+sym+'&interval=15&hidesidetoolbar=0&theme=dark&style=1&locale=en" style="width:100%;height:100%;border:0"></iframe>';}
-function selectPair(el,sym){document.querySelectorAll('#pairList .pair').forEach(p=>p.classList.remove('on'));el.classList.add('on');chartTitle.innerText=sym+' - 15M - SMC Structure';loadChart(sym.includes('USD')&&sym.length===6?'FX:'+sym:sym);}
-function doLogout(){localStorage.removeItem('smc_current');location.reload();}
-updateCount();
-const cur=localStorage.getItem('smc_current');if(cur){try{enter(JSON.parse(cur))}catch(e){}}
-</script>
-</body>
-</html>
+
+<div id="loginForm">
+<span class="label">Email</span><input class="input" id="lEmail" placeholder="you@example.com">
+<span class="label">Password</span><input class="input" id="lPass" type="password" placeholder="••••••••">
+<button class="btn btn-green" onclick="doLogin()">LOGIN →</button>
+<div class="divider">OR</div>
+<button class="btn btn-white" onclick="googleSignIn('login')">
+<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853
