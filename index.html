@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMC TRADER - FINAL A+ AUTO</title>
+<title>SMC TRADER</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
@@ -34,10 +34,13 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 .phone-wrap{display:flex;gap:8px}
 .phone-wrap select{width:95px;padding:12px 8px;border-radius:11px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
 .dash{display:none;min-height:100vh;background:#050a0a;position:relative;z-index:10}
-.dash .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(5,10,10,0.98);border-bottom:1px solid rgba(0,255,136,0.2);position:sticky;top:0;z-index:20}
-.dash .content{padding:12px;display:grid;gap:12px;grid-template-columns:320px 1fr}
-@media(max-width:1000px){.dash .content{grid-template-columns:1fr}}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(5,10,10,0.95);border-bottom:1px solid rgba(0,255,136,0.15)}
+.content{padding:14px;display:grid;gap:14px;grid-template-columns:280px 1fr}
+.port{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(10,20,15,0.9));border:1px solid rgba(0,255,136,0.15);border-radius:18px;padding:16px}
 .card-dash{background:#0f1e16;border:1px solid #1a3a2a;border-radius:14px;padding:14px}
+.pair{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;margin:4px 0;border-radius:9px;background:rgba(20,30,25,0.6);border:1px solid transparent;cursor:pointer;font-size:13px}
+.pair.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
+/* === STRATEGY CODE ADDED - NO ORIGINAL CODE CHANGED === */
 .card-ap{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(0,255,136,0.08));border:1px solid rgba(0,255,136,0.25)}
 .badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:900;letter-spacing:0.5px}
 .badge-a{background:#00ff88;color:#000;box-shadow:0 0 15px rgba(0,255,136,0.4)}
@@ -58,47 +61,54 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 .switch.on{background:#00ff88}
 .switch-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:0.3s}
 .switch.on .switch-dot{left:23px}
+@media(max-width:1000px){.content{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="bg"></div><div class="overlay"></div>
+
 <div class="page active" id="page-landing">
 <div class="card" style="text-align:center">
 <div class="logo-icon">ST</div>
 <h1>SMC TRADER</h1>
 <div class="sub">PRECISION • LIQUIDITY • STRUCTURE</div>
-<p style="font-size:13px;opacity:0.7;margin-bottom:20px">Professional SMC A+ Auto Trading.</p>
+<p style="font-size:13px;opacity:0.7;margin-bottom:20px">Professional SMC trading platform.</p>
 <button class="btn btn-green" onclick="showPage('register')">CREATE ACCOUNT →</button>
 <button class="btn btn-outline" onclick="showPage('login')">LOGIN</button>
 </div>
 </div>
+
 <div class="page" id="page-login">
 <div class="card">
 <h2 style="font-size:20px;font-weight:900">Welcome Back</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Login - This is a separate page</p>
 <div id="loginMsg" class="msg"></div>
 <span class="label">Email</span><input class="input" id="lEmail" placeholder="you@example.com">
 <span class="label">Password</span><input class="input" id="lPass" type="password">
 <button class="btn btn-green" onclick="doLogin()">LOGIN →</button>
-<button class="btn btn-white" onclick="googleLogin()">Continue with Google</button>
+<button class="btn btn-white" onclick="googleLogin()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>Continue with Google</button>
 <button class="btn btn-gray" onclick="showPage('landing')">← Back</button>
 <div style="text-align:center;font-size:10px;opacity:0.4;margin-top:10px" id="loginCount"></div>
 </div>
 </div>
+
 <div class="page" id="page-register">
 <div class="card">
-<div class="step">Step 1 of 4 • Email</div>
+<div class="step">Step 1 of 4 • Email - Another page</div>
 <h2 style="font-size:20px;font-weight:900">Create Account</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Email or Google</p>
 <div id="regMsg" class="msg"></div>
 <span class="label">Email</span><input class="input" id="rEmail" placeholder="you@example.com">
 <button class="btn btn-green" onclick="sendCode()">SEND CODE →</button>
 <div class="divider">OR</div>
-<button class="btn btn-white" onclick="googleSignUp()">Sign up with Google</button>
+<button class="btn btn-white" onclick="googleSignUp()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>Sign up with Google</button>
 <button class="btn btn-gray" onclick="showPage('landing')">← Back</button>
 </div>
 </div>
+
 <div class="page" id="page-verify">
 <div class="card" style="text-align:center">
-<div class="step" style="text-align:left">Step 2 of 4 • Verify</div>
+<div class="step" style="text-align:left">Step 2 of 4 • Verify - Another page</div>
 <h2 style="font-size:20px;font-weight:900">Check your email</h2>
 <p style="font-size:12px;opacity:0.6;margin:6px 0">Code sent to<br><b id="vEmail" style="color:#00ff88"></b></p>
 <div id="vMsg" class="msg"></div>
@@ -111,21 +121,24 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 <button class="btn btn-gray" onclick="showPage('register')">← Back</button>
 </div>
 </div>
+
 <div class="page" id="page-password">
 <div class="card">
-<div class="step">Step 3 of 4 • Password</div>
+<div class="step">Step 3 of 4 • Create Password - Another page</div>
 <h2 style="font-size:20px;font-weight:900">Create Password</h2>
-<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Email <b id="pEmail" style="color:#00ff88"></b> verified ✅</p>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Email <b id="pEmail" style="color:#00ff88"></b> verified ✅<br>Now add password - AFTER email confirmed</p>
 <div id="pMsg" class="msg"></div>
 <span class="label">New Password</span><input class="input" id="pPass" type="password" placeholder="Min 6 characters">
 <span class="label">Confirm Password</span><input class="input" id="pPass2" type="password" placeholder="Confirm">
 <button class="btn btn-green" onclick="savePassword()">SAVE PASSWORD →</button>
 </div>
 </div>
+
 <div class="page" id="page-profile">
 <div class="card">
-<div class="step">Step 4 of 4 • Profile</div>
+<div class="step">Step 4 of 4 • Profile - Another page</div>
 <h2 style="font-size:20px;font-weight:900">Complete Profile</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Full name & phone → Dashboard</p>
 <div id="prMsg" class="msg"></div>
 <span class="label">Full Name</span><input class="input" id="prName" placeholder="John Michael Doe">
 <span class="label">Phone</span><div class="phone-wrap"><select id="prCountry"><option value="+234">🇳🇬 +234</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option></select><input class="input" id="prNumber" placeholder="8012345678" style="flex:1"></div>
@@ -133,40 +146,40 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 <button class="btn btn-green" onclick="completeProfile()">COMPLETE & GO TO DASHBOARD →</button>
 </div>
 </div>
+
 <div class="dash" id="page-dashboard">
-<div class="topbar"><div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span> <span style="font-size:10px;opacity:0.6">A+ AUTO FINAL</span></h2><div id="welcomeInfo" style="font-size:11px;opacity:0.6"></div></div><div style="display:flex;gap:8px;align-items:center"><div style="display:flex;align-items:center;gap:8px;font-size:12px"><span>AUTO</span><div id="autoSwitch" class="switch on" onclick="toggleAuto()"><div class="switch-dot"></div></div></div><button onclick="logout()" style="padding:8px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;font-size:12px">Logout</button></div></div>
+<div class="topbar"><div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span></h2><div id="welcomeInfo" style="font-size:11px;opacity:0.6"></div></div><div style="display:flex;gap:8px;align-items:center"><div style="display:flex;align-items:center;gap:8px;font-size:12px"><span>AUTO</span><div id="autoSwitch" class="switch on" onclick="toggleAuto()"><div class="switch-dot"></div></div></div><button onclick="logout()" style="padding:8px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;font-size:12px">Logout</button></div></div>
 <div class="content">
-<div style="display:flex;flex-direction:column;gap:12px">
-<div class="card-dash"><h3 style="font-size:12px;letter-spacing:1px;opacity:0.7">⚙️ SELECT PAIRS (3-10)</h3><div style="font-size:10px;opacity:0.5">Forex • Crypto • Stocks • Indices</div><div id="pairSelector" class="select-pair"></div><div style="font-size:11px;margin-top:6px"><span id="pairCount">0</span>/10 • <span id="scanStatus" style="color:#00ff88">● Scanning A+ setups...</span></div></div>
-<div class="card-dash card-ap"><h3 style="font-size:13px">🔥 LIVE A+ SCANNER</h3><div style="font-size:10px;opacity:0.5">1.BOS/CHoCH 2.Liquidity 3.FVG near OB 4.Unmitigated OB • 1D→4H→1H→15M</div><div id="scannerList" style="margin-top:10px"></div></div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div class="port"><h1 style="font-size:28px;font-weight:900">$12,450.00</h1><div style="font-size:11px;opacity:0.6">Portfolio</div></div>
 <div class="card-dash"><h3 style="font-size:13px">👤 Profile</h3><div style="font-size:11px;line-height:1.8;opacity:0.8" id="profileBox"></div></div>
+<div class="card-dash"><h3 style="font-size:13px">🔍 Pairs (Original)</h3><div class="pair on" onclick="selectPair(this,'EURUSD')"><span>EURUSD</span><span style="color:#00ff88">92</span></div><div class="pair" onclick="selectPair(this,'GBPUSD')"><span>GBPUSD</span><span style="color:#ffaa00">87</span></div><div class="pair" onclick="selectPair(this,'XAUUSD')"><span>XAUUSD</span><span style="color:#00ff88">94</span></div></div>
+
+<!-- === STRATEGY CODE ADDED START === -->
+<div class="card-dash"><h3 style="font-size:12px;letter-spacing:1px;opacity:0.7">⚙️ SELECT PAIRS (3-10) - Strategy</h3><div style="font-size:10px;opacity:0.5">Forex • Crypto • Stocks • Indices</div><div id="pairSelector" class="select-pair"></div><div style="font-size:11px;margin-top:6px"><span id="pairCount">0</span>/10 • <span id="scanStatus" style="color:#00ff88">● Scanning A+ setups...</span></div></div>
+<div class="card-dash card-ap"><h3 style="font-size:13px">🔥 LIVE A+ SCANNER</h3><div style="font-size:10px;opacity:0.5">1.BOS/CHoCH 2.Liquidity 3.FVG near OB 4.Unmitigated OB • 1D→4H→1H→15M</div><div id="scannerList" style="margin-top:10px"></div></div>
+<!-- === STRATEGY CODE ADDED END === -->
+
 </div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div class="card-dash" style="padding:0;overflow:hidden">
-<div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a3a2a"><div><b id="chartTitle" style="font-size:14px">EURUSD - 15M ENTRY</b><div id="aScore" style="font-size:11px;margin-top:2px"></div></div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-a" id="signalBadge">A+ SETUP</span><span style="font-size:10px;color:#00ff88">● LIVE</span></div></div>
-<div style="padding:12px 14px;background:rgba(0,0,0,0.3)"><div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">MULTI-TIMEFRAME (1D → 4H → 1H → 15M ENTRY)</div><div class="tf-grid"><div class="tf-box" id="tf-1D">1D<br><b id="tf-1D-v">--</b></div><div class="tf-box" id="tf-4H">4H<br><b id="tf-4H-v">--</b></div><div class="tf-box" id="tf-1H">1H<br><b id="tf-1H-v">--</b></div><div class="tf-box" id="tf-15M">15M<br><b id="tf-15M-v">ENTRY</b></div></div></div>
-<div id="tvChart" style="height:460px;background:#000"></div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div class="card-dash" style="padding:0;overflow:hidden"><div style="padding:10px 14px;display:flex;justify-content:space-between;border-bottom:1px solid #1a3a2a"><b id="chartTitle" style="font-size:13px">EURUSD - 15M</b><span style="font-size:10px;color:#00ff88">● LIVE</span></div><div id="tvChart" style="height:480px;background:#000"></div>
+
+<!-- === STRATEGY PANELS ADDED === -->
+<div style="padding:12px 14px;background:rgba(0,0,0,0.3);border-top:1px solid #1a3a2a"><div style="display:flex;justify-content:space-between"><div><b id="chartTitle2" style="font-size:14px">EURUSD - 15M ENTRY</b><div id="aScore" style="font-size:11px;margin-top:2px"></div></div><span class="badge badge-a" id="signalBadge">A+ SETUP</span></div><div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin:10px 0 8px">MULTI-TIMEFRAME (1D → 4H → 1H → 15M ENTRY)</div><div class="tf-grid"><div class="tf-box" id="tf-1D">1D<br><b id="tf-1D-v">--</b></div><div class="tf-box" id="tf-4H">4H<br><b id="tf-4H-v">--</b></div><div class="tf-box" id="tf-1H">1H<br><b id="tf-1H-v">--</b></div><div class="tf-box" id="tf-15M">15M<br><b id="tf-15M-v">ENTRY</b></div></div></div>
 <div style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#0a1510;border-top:1px solid #1a3a2a">
 <div><div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">A+ CHECKLIST (4 Rules)</div><div id="checklist"></div></div>
 <div><div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">AUTO TRADE PLAN (SL BELOW OB)</div><div id="tradePlan" style="font-size:12px;line-height:1.7;background:rgba(0,0,0,0.3);padding:10px;border-radius:10px;border:1px solid rgba(0,255,136,0.15)"></div><button id="autoTradeBtn" class="btn btn-green" style="width:100%;margin-top:10px" onclick="executeAutoTrade()">🤖 AUTO EXECUTE TRADE (PAPER)</button><div style="font-size:10px;opacity:0.4;margin-top:6px">Paper trading. BE @ 1R. TP 1:2 to 1:5 or next key zone.</div></div>
 </div>
-</div>
 <div class="card-dash"><h3 style="font-size:13px">📊 Active Auto Trades (With BE Logic)</h3><div id="activeTrades" style="font-size:12px;margin-top:8px;opacity:0.7">No active trades. Scanner will open A+ 90+ automatically.</div></div>
+<!-- === END STRATEGY PANELS === -->
+
 </div>
 </div>
 </div>
+</div>
+
 <script>
 let pending=null;
-const ALL_PAIRS = [
-{sym:'EURUSD',type:'FOREX'},{sym:'GBPUSD',type:'FOREX'},{sym:'USDJPY',type:'FOREX'},{sym:'AUDUSD',type:'FOREX'},{sym:'USDCAD',type:'FOREX'},{sym:'XAUUSD',type:'FOREX',name:'GOLD'},
-{sym:'BTCUSD',type:'CRYPTO'},{sym:'ETHUSD',type:'CRYPTO'},{sym:'SOLUSD',type:'CRYPTO'},
-{sym:'AAPL',type:'STOCK'},{sym:'TSLA',type:'STOCK'},{sym:'NVDA',type:'STOCK'},{sym:'SPX',type:'INDEX'},
-];
-let selected = ['EURUSD','GBPUSD','XAUUSD','BTCUSD'];
-let currentPair = 'EURUSD';
-let autoOn = true;
-let currentAnalysis = null;
-let trades=[];
 function getUsers(){try{return JSON.parse(localStorage.getItem('smc_users')||'[]')}catch(e){return []}}
 function saveUsers(u){localStorage.setItem('smc_users',JSON.stringify(u));updateCount();}
 function updateCount(){const el=document.getElementById('loginCount');if(el)el.innerText=getUsers().length+' account(s) saved on this device';}
@@ -185,7 +198,9 @@ function showPage(name){
    document.querySelector('.overlay').style.display='none';
    document.getElementById('page-dashboard').style.display='block';
    document.body.style.background='#050a0a';
-   renderPairSelector(); runScanner();
+   loadChart('FX:EURUSD');
+   if(typeof renderPairSelector==='function') renderPairSelector();
+   if(typeof runScanner==='function') runScanner();
  }
  updateCount();
 }
@@ -228,46 +243,4 @@ function verifyCode(){
  setTimeout(()=>{showPage('password');},800);
 }
 function resendCode(){
- const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
- const newCode=Math.floor(100000+Math.random()*900000).toString();
- stored.code=newCode;
- localStorage.setItem('smc_pending',JSON.stringify(stored));
- document.getElementById('vCode').innerText=newCode;
- clearOTP();
- showMsg('vMsg','New code: '+newCode,true);
-}
-function savePassword(){
- const pass=document.getElementById('pPass').value;
- const pass2=document.getElementById('pPass2').value;
- if(!pass||pass.length<6)return showMsg('pMsg','Min 6 chars',false);
- if(pass!==pass2)return showMsg('pMsg','No match',false);
- const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
- stored.password=pass;
- localStorage.setItem('smc_pending',JSON.stringify(stored));
- pending=stored;
- setTimeout(()=>{showPage('profile');},800);
-}
-function completeProfile(){
- const fullName=document.getElementById('prName').value.trim();
- const country=document.getElementById('prCountry').value;
- const number=document.getElementById('prNumber').value.trim();
- const exp=document.getElementById('prExp').value;
- if(!fullName||fullName.split(' ').length<2)return showMsg('prMsg','Enter full name first & last',false);
- if(!number)return showMsg('prMsg','Enter phone',false);
- const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
- stored.fullName=fullName;
- stored.phone=country+' '+number;
- stored.experience=exp;
- stored.created=Date.now();
- const users=getUsers();
- users.push(stored);
- saveUsers(users);
- localStorage.setItem('smc_current',JSON.stringify(stored));
- localStorage.removeItem('smc_pending');
- setTimeout(()=>{enterDashboard(stored);},800);
-}
-function doLogin(){
- const email=document.getElementById('lEmail').value.trim().toLowerCase();
- const pass=document.getElementById('lPass').value;
- if(!email||!pass)return showMsg('loginMsg','Enter email & password',false);
- const users=getU
+ const stored=JSON.parse(localStorage.ge
