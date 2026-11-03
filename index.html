@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMC TRADER - FINAL A+ AUTO</title>
+<title>SMC TRADER</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
@@ -33,6 +33,246 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 .step{font-size:10px;opacity:0.5;letter-spacing:1px;margin-bottom:6px}
 .phone-wrap{display:flex;gap:8px}
 .phone-wrap select{width:95px;padding:12px 8px;border-radius:11px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
+.dash{display:none;min-height:100vh;background:#050a0a;position:relative;z-index:10}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(5,10,10,0.95);border-bottom:1px solid rgba(0,255,136,0.15)}
+.content{padding:14px;display:grid;gap:14px;grid-template-columns:280px 1fr}
+.port{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(10,20,15,0.9));border:1px solid rgba(0,255,136,0.15);border-radius:18px;padding:16px}
+.card-dash{background:#0f1e16;border:1px solid #1a3a2a;border-radius:14px;padding:14px}
+.pair{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;margin:4px 0;border-radius:9px;background:rgba(20,30,25,0.6);border:1px solid transparent;cursor:pointer;font-size:13px}
+.pair.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="overlay"></div>
+
+<div class="page active" id="page-landing">
+<div class="card" style="text-align:center">
+<div class="logo-icon">ST</div>
+<h1>SMC TRADER</h1>
+<div class="sub">PRECISION • LIQUIDITY • STRUCTURE</div>
+<p style="font-size:13px;opacity:0.7;margin-bottom:20px">Professional SMC trading platform.</p>
+<button class="btn btn-green" onclick="showPage('register')">CREATE ACCOUNT →</button>
+<button class="btn btn-outline" onclick="showPage('login')">LOGIN</button>
+</div>
+</div>
+
+<div class="page" id="page-login">
+<div class="card">
+<h2 style="font-size:20px;font-weight:900">Welcome Back</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Login - This is a separate page</p>
+<div id="loginMsg" class="msg"></div>
+<span class="label">Email</span><input class="input" id="lEmail" placeholder="you@example.com">
+<span class="label">Password</span><input class="input" id="lPass" type="password">
+<button class="btn btn-green" onclick="doLogin()">LOGIN →</button>
+<button class="btn btn-white" onclick="googleLogin()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>Continue with Google</button>
+<button class="btn btn-gray" onclick="showPage('landing')">← Back</button>
+<div style="text-align:center;font-size:10px;opacity:0.4;margin-top:10px" id="loginCount"></div>
+</div>
+</div>
+
+<div class="page" id="page-register">
+<div class="card">
+<div class="step">Step 1 of 4 • Email - Another page</div>
+<h2 style="font-size:20px;font-weight:900">Create Account</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Email or Google</p>
+<div id="regMsg" class="msg"></div>
+<span class="label">Email</span><input class="input" id="rEmail" placeholder="you@example.com">
+<button class="btn btn-green" onclick="sendCode()">SEND CODE →</button>
+<div class="divider">OR</div>
+<button class="btn btn-white" onclick="googleSignUp()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>Sign up with Google</button>
+<button class="btn btn-gray" onclick="showPage('landing')">← Back</button>
+</div>
+</div>
+
+<div class="page" id="page-verify">
+<div class="card" style="text-align:center">
+<div class="step" style="text-align:left">Step 2 of 4 • Verify - Another page</div>
+<h2 style="font-size:20px;font-weight:900">Check your email</h2>
+<p style="font-size:12px;opacity:0.6;margin:6px 0">Code sent to<br><b id="vEmail" style="color:#00ff88"></b></p>
+<div id="vMsg" class="msg"></div>
+<div class="otp-box">
+<input class="otp" id="o1" maxlength="1" oninput="moveOTP(1)"><input class="otp" id="o2" maxlength="1" oninput="moveOTP(2)"><input class="otp" id="o3" maxlength="1" oninput="moveOTP(3)"><input class="otp" id="o4" maxlength="1" oninput="moveOTP(4)"><input class="otp" id="o5" maxlength="1" oninput="moveOTP(5)"><input class="otp" id="o6" maxlength="1">
+</div>
+<div class="code-preview"><span style="font-size:10px;opacity:0.7">YOUR CODE:</span><br><b id="vCode" style="font-size:22px;color:#00ff88;letter-spacing:3px"></b></div>
+<button class="btn btn-green" onclick="verifyCode()">CONFIRM EMAIL →</button>
+<button class="btn btn-gray" onclick="resendCode()">Resend code</button>
+<button class="btn btn-gray" onclick="showPage('register')">← Back</button>
+</div>
+</div>
+
+<div class="page" id="page-password">
+<div class="card">
+<div class="step">Step 3 of 4 • Create Password - Another page</div>
+<h2 style="font-size:20px;font-weight:900">Create Password</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Email <b id="pEmail" style="color:#00ff88"></b> verified ✅<br>Now add password - AFTER email confirmed</p>
+<div id="pMsg" class="msg"></div>
+<span class="label">New Password</span><input class="input" id="pPass" type="password" placeholder="Min 6 characters">
+<span class="label">Confirm Password</span><input class="input" id="pPass2" type="password" placeholder="Confirm">
+<button class="btn btn-green" onclick="savePassword()">SAVE PASSWORD →</button>
+</div>
+</div>
+
+<div class="page" id="page-profile">
+<div class="card">
+<div class="step">Step 4 of 4 • Profile - Another page</div>
+<h2 style="font-size:20px;font-weight:900">Complete Profile</h2>
+<p style="font-size:12px;opacity:0.6;margin:4px 0 16px">Full name & phone → Dashboard</p>
+<div id="prMsg" class="msg"></div>
+<span class="label">Full Name</span><input class="input" id="prName" placeholder="John Michael Doe">
+<span class="label">Phone</span><div class="phone-wrap"><select id="prCountry"><option value="+234">🇳🇬 +234</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option></select><input class="input" id="prNumber" placeholder="8012345678" style="flex:1"></div>
+<span class="label">Experience</span><select id="prExp" class="input"><option value="">Select</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+<button class="btn btn-green" onclick="completeProfile()">COMPLETE & GO TO DASHBOARD →</button>
+</div>
+</div>
+
+<div class="dash" id="page-dashboard">
+<div class="topbar"><div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span></h2><div id="welcomeInfo" style="font-size:11px;opacity:0.6"></div></div><div><button onclick="logout()" style="padding:8px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;font-size:12px">Logout</button></div></div>
+<div class="content">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div class="port"><h1 style="font-size:28px;font-weight:900">$12,450.00</h1><div style="font-size:11px;opacity:0.6">Portfolio</div></div>
+<div class="card-dash"><h3 style="font-size:13px">👤 Profile</h3><div style="font-size:11px;line-height:1.8;opacity:0.8" id="profileBox"></div></div>
+<div class="card-dash"><h3 style="font-size:13px">🔍 Pairs</h3><div class="pair on" onclick="selectPair(this,'EURUSD')"><span>EURUSD</span><span style="color:#00ff88">92</span></div><div class="pair" onclick="selectPair(this,'GBPUSD')"><span>GBPUSD</span><span style="color:#ffaa00">87</span></div><div class="pair" onclick="selectPair(this,'XAUUSD')"><span>XAUUSD</span><span style="color:#00ff88">94</span></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div class="card-dash" style="padding:0;overflow:hidden;height:520px"><div style="padding:10px 14px;display:flex;justify-content:space-between;border-bottom:1px solid #1a3a2a"><b id="chartTitle" style="font-size:13px">EURUSD - 15M</b><span style="font-size:10px;color:#00ff88">● LIVE</span></div><div id="tvChart" style="height:480px;background:#000"></div></div>
+</div>
+</div>
+</div>
+
+<script>
+let pending=null;
+function getUsers(){try{return JSON.parse(localStorage.getItem('smc_users')||'[]')}catch(e){return []}}
+function saveUsers(u){localStorage.setItem('smc_users',JSON.stringify(u));updateCount();}
+function updateCount(){const el=document.getElementById('loginCount');if(el)el.innerText=getUsers().length+' account(s) saved on this device';}
+function showMsg(id,t,ok){const m=document.getElementById(id);if(!m)return;m.textContent=t;m.className='msg '+(ok?'ok':'err');}
+function showPage(name){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById('page-dashboard').style.display='none';
+ document.querySelector('.bg').style.display='block';
+ document.querySelector('.overlay').style.display='block';
+ document.body.style.background='#020a06';
+ const target=document.getElementById('page-'+name);
+ if(target){target.classList.add('active');}
+ if(name==='dashboard'){
+   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+   document.querySelector('.bg').style.display='none';
+   document.querySelector('.overlay').style.display='none';
+   document.getElementById('page-dashboard').style.display='block';
+   document.body.style.background='#050a0a';
+   loadChart('FX:EURUSD');
+ }
+ updateCount();
+}
+function sendCode(){
+ const email=document.getElementById('rEmail').value.trim().toLowerCase();
+ if(!email||!email.includes('@'))return showMsg('regMsg','Enter valid email',false);
+ if(getUsers().find(u=>u.email===email))return showMsg('regMsg','Already registered - Login',false);
+ const code=Math.floor(100000+Math.random()*900000).toString();
+ pending={email,code,verified:false,method:'email'};
+ localStorage.setItem('smc_pending',JSON.stringify(pending));
+ document.getElementById('vEmail').innerText=email;
+ document.getElementById('vCode').innerText=code;
+ showMsg('regMsg','Code '+code+' - Opening verification page...',true);
+ setTimeout(()=>{showPage('verify');clearOTP();},800);
+}
+function googleSignUp(){
+ const e=prompt('Enter Google email:');
+ if(!e||!e.includes('@'))return showMsg('regMsg','Valid email',false);
+ if(getUsers().find(u=>u.email===e.toLowerCase()))return showMsg('regMsg','Already registered - Login',false);
+ const code=Math.floor(100000+Math.random()*900000).toString();
+ pending={email:e.toLowerCase(),code,verified:false,method:'google'};
+ localStorage.setItem('smc_pending',JSON.stringify(pending));
+ document.getElementById('vEmail').innerText=e.toLowerCase();
+ document.getElementById('vCode').innerText=code;
+ setTimeout(()=>{showPage('verify');clearOTP();},800);
+}
+function moveOTP(n){const el=document.getElementById('o'+n);if(el.value&&n<6)document.getElementById('o'+(n+1)).focus();}
+function clearOTP(){for(let i=1;i<=6;i++){const el=document.getElementById('o'+i);if(el)el.value='';}const f=document.getElementById('o1');if(f)f.focus();}
+function getEnteredCode(){let c='';for(let i=1;i<=6;i++)c+=document.getElementById('o'+i).value;return c;}
+function verifyCode(){
+ const e=getEnteredCode();
+ if(e.length!==6)return showMsg('vMsg','Enter 6-digit code',false);
+ const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
+ if(e!==stored.code)return showMsg('vMsg','Wrong! Correct is '+stored.code,false);
+ stored.verified=true;
+ pending=stored;
+ localStorage.setItem('smc_pending',JSON.stringify(stored));
+ document.getElementById('pEmail').innerText=stored.email;
+ showMsg('vMsg','Verified ✅ Opening password page...',true);
+ setTimeout(()=>{showPage('password');},800);
+}
+function resendCode(){
+ const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
+ const newCode=Math.floor(100000+Math.random()*900000).toString();
+ stored.code=newCode;
+ localStorage.setItem('smc_pending',JSON.stringify(stored));
+ document.getElementById('vCode').innerText=newCode;
+ clearOTP();
+ showMsg('vMsg','New code: '+newCode,true);
+}
+function savePassword(){
+ const pass=document.getElementById('pPass').value;
+ const pass2=document.getElementById('pPass2').value;
+ if(!pass||pass.length<6)return showMsg('pMsg','Min 6 chars',false);
+ if(pass!==pass2)return showMsg('pMsg','No match',false);
+ const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
+ stored.password=pass;
+ localStorage.setItem('smc_pending',JSON.stringify(stored));
+ pending=stored;
+ setTimeout(()=>{showPage('profile');},800);
+}
+function completeProfile(){
+ const fullName=document.getElementById('prName').value.trim();
+ const country=document.getElementById('prCountry').value;
+ const number=document.getElementById('prNumber').value.trim();
+ const exp=document.getElementById('prExp').value;
+ if(!fullName||fullName.split(' ').length<2)return showMsg('prMsg','Enter full name first & last',false);
+ if(!number)return showMsg('prMsg','Enter phone',false);
+ const stored=JSON.parse(localStorage.getItem('smc_pending')||'{}');
+ stored.fullName=fullName;
+ stored.phone=country+' '+number;
+ stored.experience=exp;
+ stored.created=Date.now();
+ const users=getUsers();
+ users.push(stored);
+ saveUsers(users);
+ localStorage.setItem('smc_current',JSON.stringify(stored));
+ localStorage.removeItem('smc_pending');
+ setTimeout(()=>{enterDashboard(stored);},800);
+}
+function doLogin(){
+ const email=document.getElementById('lEmail').value.trim().toLowerCase();
+ const pass=document.getElementById('lPass').value;
+ if(!email||!pass)return showMsg('loginMsg','Enter email & password',false);
+ const users=getUsers();
+ if(users.length===0)return showMsg('loginMsg','No accounts - Register first',false);
+ const user=users.find(u=>u.email===email&&u.password===pass);
+ if(!user)return showMsg('loginMsg','Invalid - Register first',false);
+ localStorage.setItem('smc_current',JSON.stringify(user));
+ enterDashboard(user);
+}
+function googleLogin(){
+ const e=prompt('Enter Google email:');
+ if(!e||!e.includes('@'))return showMsg('loginMsg','Valid email',false);
+ const user=getUsers().find(u=>u.email===e.toLowerCase());
+ if(!user)return showMsg('loginMsg','No account - Register first',false);
+ localStorage.setItem('smc_current',JSON.stringify(user));
+ enterDashboard(user);
+}
+function enterDashboard(user){
+ document.getElementById('welcomeInfo').innerText='Verified • '+(user.fullName||'')+' • '+user.email+' • '+(user.phone||'');
+ document.getElementById('profileBox').innerHTML='<b>Name:</b> '+(user.fullName||'N/A')+'<br><b>Email:</b> '+user.email+'<br><b>Phone:</b> '+(user.phone||'N/A')+'<br><b>Method:</b> '+(user.method||'email')+'<br><b>Verified:</b> ✅';
+ showPage('dashboard');
+}
+function logout(){localStorage.removeItem('smc_current');location.reload();}
+function loadChart(sym){const el=document.getElementById('tvChart');if(el)el.innerHTML='<iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tv&symbol='+sym+'&interval=15&hidesidetoolbar=0&theme=dark&style=1&locale=en" style="width:100%;height:100%;border:0"></iframe>';}
+function selectPair(el,sym){document.querySelectorAll('.pair').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('chartTitle').innerText=sym+' - 15M';loadChart(sym.length===6?'FX:'+sym:sym);}
+updateCount();
+const cur=localStorage.getItem('smc_current');
+if(cur){try{enterDashboard(JSON.parse(cur));}catch(e){}}
+</script>
+</body>
+ </html>11px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff}
 /* DASHBOARD A+ STYLES */
 .dash{display:none;min-height:100vh;background:#050a0a;position:relative;z-index:10}
 .dash .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(5,10,10,0.98);border-bottom:1px solid rgba(0,255,136,0.2);position:sticky;top:0;z-index:20}
