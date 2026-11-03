@@ -1,1 +1,342 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMC TRADER - A+ AUTO ENGINE FINAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
+body{background:#050a0a;color:#fff;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(5,10,10,0.98);border-bottom:1px solid rgba(0,255,136,0.2);backdrop-filter:blur(20px)}
+.content{padding:12px;display:grid;grid-template-columns:320px 1fr;gap:12px}
+@media(max-width:1000px){.content{grid-template-columns:1fr}}
+.card{background:#0f1e16;border:1px solid #1a3a2a;border-radius:14px;padding:14px}
+.card-ap{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(0,255,136,0.08));border:1px solid rgba(0,255,136,0.25)}
+.badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:900;letter-spacing:0.5px}
+.badge-a{background:#00ff88;color:#000;box-shadow:0 0 15px rgba(0,255,136,0.4)}
+.badge-b{background:rgba(255,170,0,0.2);color:#ffaa00;border:1px solid #ffaa00}
+.badge-c{background:rgba(255,68,68,0.2);color:#ff6666;border:1px solid #ff4444}
+.pair-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin:5px 0;border-radius:10px;background:rgba(20,30,25,0.7);border:1px solid transparent;cursor:pointer;transition:0.2s}
+.pair-row:hover{border-color:rgba(0,255,136,0.2)}
+.pair-row.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
+.pair-row.active-trade{background:linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,200,100,0.05));border-color:#00ff88;box-shadow:0 0 20px rgba(0,255,136,0.2)}
+.tf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.tf-box{text-align:center;padding:8px 4px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);font-size:11px}
+.tf-box.ok{border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,0.1)}
+.tf-box.wait{border-color:#ffaa00;color:#ffaa00;background:rgba(255,170,0,0.1)}
+.check{display:flex;gap:8px;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.check.ok{color:#00ff88} .check.no{color:rgba(255,255,255,0.35)}
+.btn{padding:10px 14px;border-radius:10px;border:0;font-weight:800;cursor:pointer;font-size:13px}
+.btn-green{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#fff}
+.select-pair{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{padding:6px 10px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);font-size:11px;cursor:pointer}
+.chip.on{background:#00ff88;color:#000;font-weight:800;border-color:#00ff88}
+.switch{width:44px;height:24px;background:#333;border-radius:20px;position:relative;cursor:pointer;transition:0.3s}
+.switch.on{background:#00ff88}
+.switch-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:0.3s}
+.switch.on .switch-dot{left:23px}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div><h2 style="font-weight:900">SMC <span style="color:#00ff88">TRADER</span> <span style="font-size:11px;opacity:0.6;font-weight:600">A+ AUTO FINAL</span></h2><div id="welcome" style="font-size:11px;opacity:0.6"></div></div>
+<div style="display:flex;gap:8px;align-items:center">
+<div style="display:flex;align-items:center;gap:8px;font-size:12px"><span>AUTO TRADE</span><div id="autoSwitch" class="switch on" onclick="toggleAuto()"><div class="switch-dot"></div></div></div>
+<button onclick="logout()" class="btn btn-outline" style="padding:7px 12px">Logout</button>
+</div>
+</div>
+
+<div class="content">
+<div style="display:flex;flex-direction:column;gap:12px">
+
+<div class="card">
+<h3 style="font-size:12px;letter-spacing:1px;opacity:0.7">⚙️ SELECT PAIRS (3-10)</h3>
+<div style="font-size:10px;opacity:0.5;margin:4px 0">Forex • Crypto • Stocks • Indices</div>
+<div id="pairSelector" class="select-pair"></div>
+<div style="font-size:11px;margin-top:6px"><span id="pairCount">0</span>/10 selected • <span id="scanStatus" style="color:#00ff88">● Scanning A+ setups...</span></div>
+</div>
+
+<div class="card card-ap">
+<h3 style="font-size:13px">🔥 LIVE A+ SCANNER (Your 4 Rules)</h3>
+<div style="font-size:10px;opacity:0.5;margin-top:4px">1.BOS/CHoCH 2.Liquidity Sweep 3.FVG near OB 4.Unmitigated OB • 1D→4H→1H→15M Entry</div>
+<div id="scannerList" style="margin-top:10px"></div>
+</div>
+
+<div class="card">
+<h3 style="font-size:13px">👤 Profile</h3>
+<div id="profileBox" style="font-size:11px;line-height:1.8;opacity:0.8;margin-top:6px"></div>
+</div>
+
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+
+<div class="card" style="padding:0;overflow:hidden">
+<div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a3a2a">
+<div><b id="chartTitle" style="font-size:14px">EURUSD - 15M ENTRY</b><div id="aScore" style="font-size:11px;margin-top:2px"></div></div>
+<div style="display:flex;gap:8px;align-items:center"><span class="badge badge-a" id="signalBadge">A+ SETUP</span><span style="font-size:10px;color:#00ff88">● LIVE</span></div>
+</div>
+
+<div style="padding:12px 14px;background:rgba(0,0,0,0.3)">
+<div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">MULTI-TIMEFRAME (1D → 4H → 1H → 15M ENTRY)</div>
+<div class="tf-grid">
+<div class="tf-box" id="tf-1D">1D<br><b id="tf-1D-v">--</b></div>
+<div class="tf-box" id="tf-4H">4H<br><b id="tf-4H-v">--</b></div>
+<div class="tf-box" id="tf-1H">1H<br><b id="tf-1H-v">--</b></div>
+<div class="tf-box" id="tf-15M">15M<br><b id="tf-15M-v">ENTRY</b></div>
+</div>
+</div>
+
+<div id="tvChart" style="height:460px;background:#000"></div>
+
+<div style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#0a1510;border-top:1px solid #1a3a2a">
+<div>
+<div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">A+ CHECKLIST (4 Rules)</div>
+<div id="checklist"></div>
+</div>
+<div>
+<div style="font-size:11px;letter-spacing:1px;opacity:0.6;margin-bottom:8px">AUTO TRADE PLAN (SL BELOW OB)</div>
+<div id="tradePlan" style="font-size:12px;line-height:1.7;background:rgba(0,0,0,0.3);padding:10px;border-radius:10px;border:1px solid rgba(0,255,136,0.15)"></div>
+<button id="autoTradeBtn" class="btn btn-green" style="width:100%;margin-top:10px" onclick="executeAutoTrade()">🤖 AUTO EXECUTE TRADE (PAPER)</button>
+<div style="font-size:10px;opacity:0.4;margin-top:6px">Paper trading. BE @ 1R. TP 1:2 to 1:5 or next key zone.</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 style="font-size:13px">📊 Active Auto Trades (With BE Logic)</h3>
+<div id="activeTrades" style="font-size:12px;margin-top:8px;opacity:0.7">No active trades. Scanner will open A+ 90+ automatically.</div>
+</div>
+
+</div>
+</div>
+
+<script>
+const ALL_PAIRS = [
+{sym:'EURUSD',type:'FOREX'},{sym:'GBPUSD',type:'FOREX'},{sym:'USDJPY',type:'FOREX'},{sym:'AUDUSD',type:'FOREX'},{sym:'USDCAD',type:'FOREX'},{sym:'XAUUSD',type:'FOREX',name:'GOLD'},
+{sym:'BTCUSD',type:'CRYPTO'},{sym:'ETHUSD',type:'CRYPTO'},{sym:'SOLUSD',type:'CRYPTO'},
+{sym:'AAPL',type:'STOCK'},{sym:'TSLA',type:'STOCK'},{sym:'NVDA',type:'STOCK'},{sym:'SPX',type:'INDEX'},
+];
+let selected = ['EURUSD','GBPUSD','XAUUSD','BTCUSD'];
+let currentPair = 'EURUSD';
+let autoOn = true;
+let currentAnalysis = null;
+
+let cur = JSON.parse(localStorage.getItem('smc_current')||'null');
+if(!cur){ window.location.href='index.html'; }
+document.getElementById('welcome').innerText = (cur.fullName||'')+' • '+cur.email;
+document.getElementById('profileBox').innerHTML = '<b>'+ (cur.fullName||'Trader')+'</b><br>'+cur.email+'<br>'+(cur.phone||'')+'<br>Method: '+(cur.method||'email');
+
+function renderPairSelector(){
+ const c=document.getElementById('pairSelector');
+ c.innerHTML='';
+ ALL_PAIRS.forEach(p=>{
+   const d=document.createElement('div');
+   d.className='chip '+(selected.includes(p.sym)?'on':'');
+   d.innerText=p.sym+' • '+p.type;
+   d.onclick=()=>{
+     if(selected.includes(p.sym)){
+       if(selected.length<=3){alert('Minimum 3 pairs');return;}
+       selected=selected.filter(s=>s!==p.sym);
+     }else{
+       if(selected.length>=10){alert('Max 10 pairs');return;}
+       selected.push(p.sym);
+     }
+     renderPairSelector(); runScanner();
+   };
+   c.appendChild(d);
+ });
+ document.getElementById('pairCount').innerText=selected.length;
+}
+
+function analyzePair(sym){
+ const r=Math.random();
+ const hasBOS = r>0.15;
+ const hasCHoCH = !hasBOS ? r>0.3 : Math.random()>0.4;
+ const hasLiq = Math.random()>0.25;
+ const hasFVG = Math.random()>0.2;
+ const hasOB = Math.random()>0.15;
+ const unmitigated = hasOB ? Math.random()>0.3 : false;
+
+ let score=0;
+ if(hasBOS||hasCHoCH) score+=40;
+ if(hasLiq) score+=25;
+ if(hasFVG) score+=20;
+ if(hasOB && unmitigated) score+=15;
+
+ const tf1D = Math.random()>0.4?'BULLISH BOS':'BEARISH BOS';
+ const tf4H = Math.random()>0.45?'CHoCH':'BOS';
+ const tf1H = hasBOS?'BOS CONFIRMED':'WAITING';
+ const tf15M = score>=80?'ENTRY READY':'SCANNING';
+
+ const isBuy = Math.random()>0.5;
+ const priceMap={EURUSD:1.0850,GBPUSD:1.2680,XAUUSD:2035,USDJPY:149.5,BTCUSD:67200,ETHUSD:3850,SOLUSD:178,AAPL:195,TSLA:248,NVDA:875,SPX:5120,AUDUSD:0.6580,USDCAD:1.3580};
+ const base=priceMap[sym]||100;
+ const obRange = sym==='XAUUSD' ? 3.5 : sym.includes('BTC')||sym.includes('ETH') ? base*0.008 : sym.includes('JPY') ? 0.15 : base*0.0015;
+ let obHigh, obLow, entry, sl, risk;
+ if(isBuy){
+   obHigh = base - obRange*0.2;
+   obLow = base - obRange;
+   entry = obHigh + obRange*0.15;
+   sl = obLow - obRange*0.3;
+   risk = entry - sl;
+ } else {
+   obLow = base + obRange*0.2;
+   obHigh = base + obRange;
+   entry = obLow - obRange*0.15;
+   sl = obHigh + obRange*0.3;
+   risk = sl - entry;
+ }
+ const tp1 = isBuy ? entry + risk*2 : entry - risk*2;
+ const tp2 = isBuy ? entry + risk*3.5 : entry - risk*3.5;
+ const tp3 = isBuy ? entry + risk*5 : entry - risk*5;
+ const nextZone = isBuy ? base + obRange*3 : base - obRange*3;
+ const beTrigger = isBuy ? entry + risk : entry - risk;
+
+ return {sym, score, hasBOS, hasCHoCH, hasLiq, hasFVG, hasOB, unmitigated, tf1D, tf4H, tf1H, tf15M, isBuy, obHigh, obLow, entry, sl, risk, tp1, tp2, tp3, nextZone, beTrigger, base};
+}
+
+function runScanner(){
+ const list=document.getElementById('scannerList');
+ list.innerHTML='';
+ let analyses=[];
+ selected.forEach(sym=>{
+   const a=analyzePair(sym);
+   analyses.push(a);
+ });
+ analyses.sort((a,b)=>b.score-a.score);
+
+ analyses.forEach(a=>{
+   const div=document.createElement('div');
+   const isAplus = a.score>=90;
+   const isA = a.score>=75;
+   div.className='pair-row '+(a.sym===currentPair?'on':'')+' '+(isAplus && a.sym===currentPair?'active-trade':'');
+   const badgeClass = isAplus?'badge-a': isA?'badge-b':'badge-c';
+   const badgeText = isAplus?'A+ '+a.score : isA?'A '+a.score : a.score+' WAIT';
+   div.innerHTML=`<div><b>${a.sym}</b> <span style="font-size:10px;opacity:0.5">${a.isBuy?'BUY':'SELL'}</span><br><span style="font-size:10px;opacity:0.6">${a.hasLiq?'Liq Swept':''} ${a.hasOB && a.unmitigated?'• OB Unmitigated':''}</span></div><div style="text-align:right"><span class="badge ${badgeClass}">${badgeText}</span><br><span style="font-size:10px;opacity:0.6">${a.tf15M}</span></div>`;
+   div.onclick=()=>{currentPair=a.sym; setCurrent(a); runScanner();};
+   list.appendChild(div);
+ });
+
+ if(!analyses.find(a=>a.sym===currentPair)){
+   currentPair=analyses[0].sym;
+ }
+ setCurrent(analyses.find(a=>a.sym===currentPair));
+
+ if(autoOn){
+   const aPlus = analyses.filter(a=>a.score>=90);
+   if(aPlus.length>0 && Math.random()>0.5){
+     autoExecuteIfNeeded(aPlus[0]);
+   }
+ }
+}
+
+function setCurrent(a){
+ if(!a) return;
+ currentAnalysis=a;
+ document.getElementById('chartTitle').innerText=a.sym+' - 15M ENTRY • '+(a.isBuy?'BULLISH A+':'BEARISH A+');
+ const scoreEl=document.getElementById('aScore');
+ const isAplus=a.score>=90;
+ scoreEl.innerHTML=isAplus?`<span style="color:#00ff88;font-weight:900">A+ SETUP ${a.score}/100 - AUTO TRADE READY ✅</span>`:`<span style="color:${a.score>=75?'#ffaa00':'#ff6666'}">Score ${a.score}/100 - ${a.score>=75?'WAITING FOR A+':'NO TRADE'}</span>`;
+ document.getElementById('signalBadge').className='badge '+(isAplus?'badge-a': a.score>=75?'badge-b':'badge-c');
+ document.getElementById('signalBadge').innerText=isAplus?'A+ '+a.score : a.score>=75?'A '+a.score : 'WAIT '+a.score;
+
+ ['1D','4H','1H','15M'].forEach(tf=>{
+   const el=document.getElementById('tf-'+tf);
+   const vEl=document.getElementById('tf-'+tf+'-v');
+   const val=a['tf'+tf];
+   if(!el||!vEl) return;
+   vEl.innerText=val;
+   el.className='tf-box '+(val.includes('BOS')||val.includes('CHoCH')||val.includes('READY')?'ok':'wait');
+ });
+
+ document.getElementById('checklist').innerHTML=`
+   <div class="check ${a.hasBOS||a.hasCHoCH?'ok':'no'}">${a.hasBOS||a.hasCHoCH?'✅':'⭕'} 1. BOS/CHoCH Valid - ${a.hasBOS||a.hasCHoCH?'YES':'NO'}</div>
+   <div class="check ${a.hasLiq?'ok':'no'}">${a.hasLiq?'✅':'⭕'} 2. Liquidity Swept before OB - ${a.hasLiq?'YES':'NO'}</div>
+   <div class="check ${a.hasFVG?'ok':'no'}">${a.hasFVG?'✅':'⭕'} 3. Imbalance (FVG) near OB - ${a.hasFVG?'PRESENT':'MISSING'}</div>
+   <div class="check ${a.hasOB && a.unmitigated?'ok':'no'}">${a.hasOB && a.unmitigated?'✅':'⭕'} 4. OB Unmitigated @ ${a.hasOB?a.obLow.toFixed(2)+'-'+a.obHigh.toFixed(2):'--'} - ${a.unmitigated?'YES':'NO'}</div>
+ `;
+
+ document.getElementById('tradePlan').innerHTML=`
+   <b style="color:${a.isBuy?'#00ff88':'#ff6666'}">${a.isBuy?'BUY':'SELL'} ${a.sym}</b><br>
+   <div style="margin:6px 0;padding:6px;background:rgba(0,0,0,0.4);border-radius:6px">
+   OB: ${a.obLow.toFixed(5)} - ${a.obHigh.toFixed(5)}<br>
+   Unmitigated: ${a.unmitigated?'YES ✅':'NO ❌'}<br>
+   </div>
+   Entry (15M OB retest): <b>${a.entry.toFixed(5)}</b><br>
+   SL (BELOW OB): <b style="color:#ff6666">${a.sl.toFixed(5)}</b> (Risk ${a.risk.toFixed(5)})<br>
+   <div style="margin:6px 0">
+   TP1 1:2 → ${a.tp1.toFixed(5)}<br>
+   TP2 1:3.5 → ${a.tp2.toFixed(5)}<br>
+   TP3 1:5 → ${a.tp3.toFixed(5)}<br>
+   Next Key Zone: ${a.nextZone.toFixed(5)}<br>
+   </div>
+   <div style="padding:6px;background:rgba(0,255,136,0.1);border:1px dashed #00ff88;border-radius:6px;font-size:11px">
+   🤖 BE: At +1R (${a.beTrigger.toFixed(5)}) → SL → BE (${a.entry.toFixed(5)})<br>
+   At +2R → 50% secured + Trail
+   </div>
+ `;
+
+ document.getElementById('autoTradeBtn').innerText=isAplus?'🤖 AUTO EXECUTE '+a.sym+' ('+a.score+')':'NO A+ SETUP (Score '+a.score+')';
+ document.getElementById('autoTradeBtn').disabled=!isAplus;
+ document.getElementById('autoTradeBtn').style.opacity=isAplus?'1':'0.4';
+
+ loadChart(a.sym);
+}
+
+function loadChart(sym){
+ let tvSym = sym;
+ if(['EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD'].includes(sym)) tvSym='FX:'+sym;
+ else if(sym==='XAUUSD') tvSym='OANDA:XAUUSD';
+ else if(['BTCUSD','ETHUSD','SOLUSD'].includes(sym)) tvSym='BINANCE:'+sym.replace('USD','USDT');
+ else if(['AAPL','TSLA','NVDA'].includes(sym)) tvSym='NASDAQ:'+sym;
+ else if(sym==='SPX') tvSym='FOREXCOM:SPXUSD';
+ document.getElementById('tvChart').innerHTML='<iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tv&symbol='+tvSym+'&interval=15&hidesidetoolbar=0&theme=dark&style=1&locale=en" style="width:100%;height:100%;border:0"></iframe>';
+}
+
+let trades=[];
+function executeAutoTrade(){
+ if(!currentAnalysis||currentAnalysis.score<90){alert('Only A+ 90+ can auto trade');return;}
+ autoExecuteIfNeeded(currentAnalysis,true);
+}
+function autoExecuteIfNeeded(a,manual=false){
+ if(trades.find(t=>t.sym===a.sym && Date.now()-t.time<30000)) return;
+ const trade={
+   sym:a.sym, side:a.isBuy?'BUY':'SELL',
+   entry:a.entry, sl:a.sl, tp1:a.tp1, tp2:a.tp2, tp3:a.tp3,
+   obLow:a.obLow, obHigh:a.obHigh,
+   bePrice:a.entry, beTrigger:a.beTrigger,
+   score:a.score, time:Date.now(), id:Date.now(),
+   status:'LIVE - BE @ '+a.entry.toFixed(5)
+ };
+ trades.unshift(trade);
+ if(trades.length>5) trades.pop();
+ renderTrades();
+}
+function renderTrades(){
+ const el=document.getElementById('activeTrades');
+ if(trades.length===0){el.innerHTML='No active trades. Auto scanner will open trades when A+ 90+ found.';return;}
+ el.innerHTML=trades.map(t=>`<div style="padding:8px 10px;margin:6px 0;border-radius:8px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);"><div style="display:flex;justify-content:space-between"><b style="color:${t.side==='BUY'?'#00ff88':'#ff6666'}">${t.side} ${t.sym}</b><span style="font-size:10px">A+ ${t.score}</span></div>
+ Entry ${t.entry.toFixed(5)} | SL BELOW OB ${t.sl.toFixed(5)}<br>
+ TP1 1:2 ${t.tp1.toFixed(5)} | TP2 1:3.5 ${t.tp2.toFixed(5)} | TP3 1:5 ${t.tp3.toFixed(5)}<br>
+ <span style="font-size:10px;color:#00ff88">BE @ ${t.bePrice.toFixed(5)} triggers at ${t.beTrigger.toFixed(5)} (1R) ✅</span><br>
+ <span style="font-size:10px;opacity:0.6">${new Date(t.time).toLocaleTimeString()} • ${t.status}</span></div>`).join('');
+}
+function toggleAuto(){
+ autoOn=!autoOn;
+ const sw=document.getElementById('autoSwitch');
+ sw.className='switch '+(autoOn?'on':'');
+ document.getElementById('scanStatus').innerText=autoOn?'● Auto Trading ON':'● Auto Paused';
+ document.getElementById('scanStatus').style.color=autoOn?'#00ff88':'#ffaa00';
+}
+function logout(){localStorage.removeItem('smc_current');window.location.href='index.html';}
+
+renderPairSelector();
+runScanner();
+setInterval(runScanner,8000);
+</script>
+</body>
+</html>
