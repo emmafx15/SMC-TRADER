@@ -40,37 +40,7 @@ h1{font-size:26px;font-weight:900;text-align:center} .sub{font-size:10px;letter-
 .card-dash{background:#0f1e16;border:1px solid #1a3a2a;border-radius:14px;padding:14px}
 .pair{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;margin:4px 0;border-radius:9px;background:rgba(20,30,25,0.6);border:1px solid transparent;cursor:pointer;font-size:13px}
 .pair.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
-/* === STRATEGY CODE ADDED - NO ORIGINAL CODE CHANGED === */
-.card-ap{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(0,255,136,0.08));border:1px solid rgba(0,255,136,0.25)}
-.badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:900;letter-spacing:0.5px}
-.badge-a{background:#00ff88;color:#000;box-shadow:0 0 15px rgba(0,255,136,0.4)}
-.badge-b{background:rgba(255,170,0,0.2);color:#ffaa00;border:1px solid #ffaa00}
-.badge-c{background:rgba(255,68,68,0.2);color:#ff6666;border:1px solid #ff4444}
-.pair-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin:5px 0;border-radius:10px;background:rgba(20,30,25,0.7);border:1px solid transparent;cursor:pointer}
-.pair-row.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
-.tf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
-.tf-box{text-align:center;padding:8px 4px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);font-size:11px}
-.tf-box.ok{border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,0.1)}
-.tf-box.wait{border-color:#ffaa00;color:#ffaa00;background:rgba(255,170,0,0.1)}
-.check{display:flex;gap:8px;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-.check.ok{color:#00ff88} .check.no{color:rgba(255,255,255,0.35)}
-.select-pair{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.chip{padding:6px 10px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);font-size:11px;cursor:pointer}
-.chip.on{background:#00ff88;color:#000;font-weight:800;border-color:#00ff88}
-.switch{width:44px;height:24px;background:#333;border-radius:20px;position:relative;cursor:pointer;transition:0.3s}
-.switch.on{background:#00ff88}
-.switch-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:0.3s}
-.switch.on .switch-dot{left:23px}
-@media(max-width:1000px){.content{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="bg"></div><div class="overlay"></div>
-
-<div class="page active" id="page-landing">
-<div class="card" style="text-align:center">
-<div class="logo-icon">ST</div>
-<h1>SMC TRADER</h1>
+ 
 <div class="sub">PRECISION • LIQUIDITY • STRUCTURE</div>
 <p style="font-size:13px;opacity:0.7;margin-bottom:20px">Professional SMC trading platform.</p>
 <button class="btn btn-green" onclick="showPage('register')">CREATE ACCOUNT →</button>
@@ -244,3 +214,34 @@ function verifyCode(){
 }
 function resendCode(){
  const stored=JSON.parse(localStorage.ge
+/* === STRATEGY CODE ADDED - NO ORIGINAL CODE CHANGED === */
+.card-ap{background:linear-gradient(135deg, rgba(15,30,22,0.9), rgba(0,255,136,0.08));border:1px solid rgba(0,255,136,0.25)}
+.badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:900;letter-spacing:0.5px}
+.badge-a{background:#00ff88;color:#000;box-shadow:0 0 15px rgba(0,255,136,0.4)}
+.badge-b{background:rgba(255,170,0,0.2);color:#ffaa00;border:1px solid #ffaa00}
+.badge-c{background:rgba(255,68,68,0.2);color:#ff6666;border:1px solid #ff4444}
+.pair-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin:5px 0;border-radius:10px;background:rgba(20,30,25,0.7);border:1px solid transparent;cursor:pointer}
+.pair-row.on{background:rgba(0,255,136,0.12);border-color:#00ff88}
+.tf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.tf-box{text-align:center;padding:8px 4px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);font-size:11px}
+.tf-box.ok{border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,0.1)}
+.tf-box.wait{border-color:#ffaa00;color:#ffaa00;background:rgba(255,170,0,0.1)}
+.check{display:flex;gap:8px;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.check.ok{color:#00ff88} .check.no{color:rgba(255,255,255,0.35)}
+.select-pair{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{padding:6px 10px;border-radius:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);font-size:11px;cursor:pointer}
+.chip.on{background:#00ff88;color:#000;font-weight:800;border-color:#00ff88}
+.switch{width:44px;height:24px;background:#333;border-radius:20px;position:relative;cursor:pointer;transition:0.3s}
+.switch.on{background:#00ff88}
+.switch-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:0.3s}
+.switch.on .switch-dot{left:23px}
+@media(max-width:1000px){.content{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="overlay"></div>
+
+<div class="page active" id="page-landing">
+<div class="card" style="text-align:center">
+<div class="logo-icon">ST</div>
+<h1>SMC TRADER</h1>
